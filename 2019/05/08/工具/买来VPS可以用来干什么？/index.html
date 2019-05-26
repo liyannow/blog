@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="写这篇文章的目的是为了让自己总结自己部署这些服务的时候的经历，因为VPS的主机商是会变的，但是这些流程和经验是不会变的。 TTRSSTTRSS是什么？ 为什么选择TTRSS？引入购买VPSVPS的服务商有很多，这里不提供购买服务商的建议（如果有可能后续会更新相关的选择） VPS的环境的建议以及选择VPS的操作系统，CPU，内存容量主机的内存最好在 512 MB 以上，且必须采用 KVM 架构。 进">
+<meta name="keywords" content="13-1 VPS,13-8 RSS,13-8-3 TTRSS,13-6 docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="买来VPS可以用来干什么？">
+<meta property="og:url" content="https://blog.liyannow.com/2019/05/08/工具/买来VPS可以用来干什么？/index.html">
+<meta property="og:site_name" content="李琰的小站">
+<meta property="og:description" content="写这篇文章的目的是为了让自己总结自己部署这些服务的时候的经历，因为VPS的主机商是会变的，但是这些流程和经验是不会变的。 TTRSSTTRSS是什么？ 为什么选择TTRSS？引入购买VPSVPS的服务商有很多，这里不提供购买服务商的建议（如果有可能后续会更新相关的选择） VPS的环境的建议以及选择VPS的操作系统，CPU，内存容量主机的内存最好在 512 MB 以上，且必须采用 KVM 架构。 进">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://gray-1251725513.cos.ap-beijing.myqcloud.com/2019-05-19-DraggedImage.8125c334bb6d44689dced0a62dc0e4a0.png">
+<meta property="og:image" content="https://gray-1251725513.cos.ap-beijing.myqcloud.com/2019-05-19-DraggedImage.006c15f7c19a46b590b9b79a9b4b50ae.png">
+<meta property="og:image" content="https://gray-1251725513.cos.ap-beijing.myqcloud.com/2019-05-19-DraggedImage.0845d949778b4152bfea184d26390ad1.png">
+<meta property="og:updated_time" content="2019-05-26T09:26:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="买来VPS可以用来干什么？">
+<meta name="twitter:description" content="写这篇文章的目的是为了让自己总结自己部署这些服务的时候的经历，因为VPS的主机商是会变的，但是这些流程和经验是不会变的。 TTRSSTTRSS是什么？ 为什么选择TTRSS？引入购买VPSVPS的服务商有很多，这里不提供购买服务商的建议（如果有可能后续会更新相关的选择） VPS的环境的建议以及选择VPS的操作系统，CPU，内存容量主机的内存最好在 512 MB 以上，且必须采用 KVM 架构。 进">
+<meta name="twitter:image" content="https://gray-1251725513.cos.ap-beijing.myqcloud.com/2019-05-19-DraggedImage.8125c334bb6d44689dced0a62dc0e4a0.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="李琰的小站" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://blog.liyannow.com/2019/05/08/工具/买来VPS可以用来干什么？/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>买来VPS可以用来干什么？ | 李琰的小站</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">李琰的小站</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.liyannow.com/2019/05/08/工具/买来VPS可以用来干什么？/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Li Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="李琰的小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">买来VPS可以用来干什么？
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-05-08 22:13:50" itemprop="dateCreated datePublished" datetime="2019-05-08T22:13:50+08:00">2019-05-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-05-26 17:26:50" itemprop="dateModified" datetime="2019-05-26T17:26:50+08:00">2019-05-26</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/工具/" itemprop="url" rel="index"><span itemprop="name">工具</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>写这篇文章的目的是为了让自己总结自己部署这些服务的时候的经历，因为VPS的主机商是会变的，但是这些流程和经验是不会变的。</p>
+<h2 id="TTRSS"><a href="#TTRSS" class="headerlink" title="TTRSS"></a>TTRSS</h2><p>TTRSS是什么？</p>
+<h3 id="为什么选择TTRSS？"><a href="#为什么选择TTRSS？" class="headerlink" title="为什么选择TTRSS？"></a>为什么选择TTRSS？</h3><h3 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h3><h2 id="购买VPS"><a href="#购买VPS" class="headerlink" title="购买VPS"></a>购买VPS</h2><p>VPS的服务商有很多，这里不提供购买服务商的建议（如果有可能后续会更新相关的选择）</p>
+<h3 id="VPS的环境的建议以及选择"><a href="#VPS的环境的建议以及选择" class="headerlink" title="VPS的环境的建议以及选择"></a>VPS的环境的建议以及选择</h3><p>VPS的操作系统，CPU，内存容量<br>主机的内存最好在 512 MB 以上，且必须采用 KVM 架构。</p>
+<h3 id="进入命令行"><a href="#进入命令行" class="headerlink" title="进入命令行"></a>进入命令行</h3><p>命令行的进入可以使用网页或者ssh工具（推荐使用ssh工具）</p>
+<h3 id="我的VPS环境"><a href="#我的VPS环境" class="headerlink" title="我的VPS环境"></a>我的VPS环境</h3><p>我的VPS环境是谷歌云（一年的那种），Centos7，</p>
+<p>我的环境是GCP<br>CentOS7 1.7 + 10<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[chefu@instance-2 ]()</span><br><span class="line"></span><br><span class="line">sudo -i</span><br><span class="line"></span><br><span class="line">passwd</span><br><span class="line"></span><br><span class="line">输入两遍密码</span><br></pre></td></tr></table></figure></p>
+<p>passwd: all authentication tokens updated successfully.<br><a href>root@instance-2 </a># </p>
+<p>vi /etc/ssh/sshd_config\_</p>
+<h1 id="Authentication"><a href="#Authentication" class="headerlink" title="Authentication:"></a>Authentication:</h1><p>PermitRootLogin yes //默认为no，需要开启root用户访问改为yes</p>
+<h1 id="Change-to-no-to-disable-tunnelled-clear-text-passwords"><a href="#Change-to-no-to-disable-tunnelled-clear-text-passwords" class="headerlink" title="Change to no to disable tunnelled clear text passwords"></a>Change to no to disable tunnelled clear text passwords</h1><p>PasswordAuthentication yes //默认为no，改为yes开启密码登陆</p>
+<p>重启服务 器是也可以直接重启reboot<br>重启之后 就是安装docker</p>
+<h2 id="Docker的"><a href="#Docker的" class="headerlink" title="Docker的"></a>Docker的</h2><h3 id="什么是Docker？"><a href="#什么是Docker？" class="headerlink" title="什么是Docker？"></a>什么是Docker？</h3><h3 id="为什么选择Docker？"><a href="#为什么选择Docker？" class="headerlink" title="为什么选择Docker？"></a>为什么选择Docker？</h3><h3 id="Docker的一键安装"><a href="#Docker的一键安装" class="headerlink" title="Docker的一键安装"></a>Docker的一键安装</h3><h1 id="安装-Docker"><a href="#安装-Docker" class="headerlink" title="安装 Docker"></a>安装 Docker</h1><p>yum -y install docker</p>
+<h1 id="后台启动"><a href="#后台启动" class="headerlink" title="后台启动"></a>后台启动</h1><p>systemctl start docker</p>
+<h2 id="开机自启动"><a href="#开机自启动" class="headerlink" title="开机自启动"></a>开机自启动</h2><p>systemctl enable docker</p>
+<h3 id="Docker的镜像选择"><a href="#Docker的镜像选择" class="headerlink" title="Docker的镜像选择"></a>Docker的镜像选择</h3><h3 id="使用Docker-compose部署"><a href="#使用Docker-compose部署" class="headerlink" title="使用Docker-compose部署"></a>使用Docker-compose部署</h3><p>访问 <a href="https://github.com/docker/compose/releases" title="docker-compose的发布界面" target="_blank" rel="noopener">docker-compose的发布界面</a><br>命令行<br>curl -L <a href="https://github.com/docker/compose/releases/download/1.24.0/docker-compose-`uname" target="_blank" rel="noopener">https://github.com/docker/compose/releases/download/1.24.0/docker-compose-`uname</a> -s<code>-</code>uname -m` -o /usr/local/bin/docker-compose<br>chmod +x /usr/local/bin/docker-compose</p>
+<p>curl -O <a href="https://raw.githubusercontent.com/HenryQW/docker-ttrss-plugins/master/docker-compose.yml" target="_blank" rel="noopener">https://raw.githubusercontent.com/HenryQW/docker-ttrss-plugins/master/docker-compose.yml</a>  </p>
+<h3 id="Docker-compose-的配置"><a href="#Docker-compose-的配置" class="headerlink" title="Docker-compose 的配置"></a>Docker-compose 的配置</h3><p>vim docker-compose.yml </p>
+<pre><code>version: &quot;3&quot;
+services:
+  database.postgres:
+    image: sameersbn/postgresql:latest
+    container_name: postgres
+    environment:
+      - PG_PASSWORD=ttrss # please change the password
+      - DB_EXTENSION=pg_trgm
+    volumes:
+      - ~/postgres/data/:/var/lib/postgresql/ # persist postgres data to ~/postgres/data/ on the host
+    restart: always
+
+  service.rss:
+    image: wangqiru/ttrss:latest
+    container_name: ttrss
+    ports:
+      - 181:80
+    environment:
+      - SELF_URL_PATH=http://localhost:181/ # please change to your own domain
+      - DB_HOST=database.postgres
+      - DB_PORT=5432
+      - DB_NAME=ttrss
+      - DB_USER=postgres
+      - DB_PASS=ttrss # please change the password
+      - ENABLE_PLUGINS=auth_internal,fever # auth_internal is required. Plugins enabled here will be enabled for all users as system plugins
+    stdin_open: true
+    tty: true
+    restart: always
+    command: sh -c &apos;sh /wait-for database.postgres:5432 -- php /configure-db.php &amp;&amp; exec s6-svscan /etc/s6/&apos;
+
+  service.mercury: # set Mercury Parser API endpoint to `service.mercury:3000` on TTRSS plugin setting page
+    image: wangqiru/mercury-parser-api:latest
+    container_name: mercury
+    expose:
+      - 3000
+    restart: always
+
+  service.opencc: # set OpenCC API endpoint to `service.opencc:3000` on TTRSS plugin setting page
+    image: wangqiru/opencc-api-server:latest
+    container_name: opencc
+    environment:
+      NODE_ENV: production
+    expose:
+      - 3000
+    restart: always
+</code></pre><h3 id="访问端口以及测试"><a href="#访问端口以及测试" class="headerlink" title="访问端口以及测试"></a>访问端口以及测试</h3><p>Creating mercury  … done<br>Creating opencc   … done<br>Creating ttrss    … done<br>Creating postgres … done</p>
+<p>浏览器输入ip地址</p>
+<p>但是大部分VPS都有个安全组策略，也就是防火墙</p>
+<p>访问失败<br>两个原因<br>如果你碰到端口无法访问，大部分是由于VPS关闭了80.443端口以外的端口。<br>Centos 还要防火墙，请在SEliunux下将。。。。设置为<br>vi /etc/selinux/config<br>SELINUX=disabled</p>
+<p>网络组</p>
+<p><img src="https://gray-1251725513.cos.ap-beijing.myqcloud.com/2019-05-19-DraggedImage.8125c334bb6d44689dced0a62dc0e4a0.png" alt></p>
+<p>访问 \&lt;your-ip-address>:\&lt;your-port> 账号 admin，密码 password，登陆后就可以改成自己的密码了<br>admin<br>password<br>偏好设置 更改默认密码 </p>
+<h3 id="插件的启用"><a href="#插件的启用" class="headerlink" title="插件的启用"></a>插件的启用</h3><h4 id="fever"><a href="#fever" class="headerlink" title="fever"></a>fever</h4><p><img src="https://gray-1251725513.cos.ap-beijing.myqcloud.com/2019-05-19-DraggedImage.006c15f7c19a46b590b9b79a9b4b50ae.png" alt></p>
+<h4 id="全文插件"><a href="#全文插件" class="headerlink" title="全文插件"></a>全文插件</h4><p>信息源里启用<br>service.mercury:3000<br><img src="https://gray-1251725513.cos.ap-beijing.myqcloud.com/2019-05-19-DraggedImage.0845d949778b4152bfea184d26390ad1.png" alt></p>
+<h3 id="订阅源"><a href="#订阅源" class="headerlink" title="订阅源"></a>订阅源</h3><p>推荐配合rsshub订阅使用</p>
+<h4 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h4><h4 id="推荐"><a href="#推荐" class="headerlink" title="推荐"></a>推荐</h4><h4 id="rsshub的自建"><a href="#rsshub的自建" class="headerlink" title="rsshub的自建"></a>rsshub的自建</h4><h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="端口无法访问"><a href="#端口无法访问" class="headerlink" title="端口无法访问"></a>端口无法访问</h3><p>安全组</p>
+<h3 id="用端口登陆后，提示。。。。"><a href="#用端口登陆后，提示。。。。" class="headerlink" title="用端口登陆后，提示。。。。"></a>用端口登陆后，提示。。。。</h3><p>将docker-compose的ip地址修改，重新部署就好了</p>
+<h3 id="Safari进入订阅源设置后，不断跳出opml导入的问题"><a href="#Safari进入订阅源设置后，不断跳出opml导入的问题" class="headerlink" title="Safari进入订阅源设置后，不断跳出opml导入的问题"></a>Safari进入订阅源设置后，不断跳出opml导入的问题</h3><p>这个暂时没有很好的解决办法。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/13-1-VPS/" rel="tag"># 13-1 VPS</a>
+          
+            <a href="/tags/13-8-RSS/" rel="tag"># 13-8 RSS</a>
+          
+            <a href="/tags/13-8-3-TTRSS/" rel="tag"># 13-8-3 TTRSS</a>
+          
+            <a href="/tags/13-6-docker/" rel="tag"># 13-6 docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/08/两性/关于月经/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Li Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/liyannow" title="GitHub &rarr; https://github.com/liyannow" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TTRSS"><span class="nav-number">1.</span> <span class="nav-text">TTRSS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么选择TTRSS？"><span class="nav-number">1.1.</span> <span class="nav-text">为什么选择TTRSS？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入"><span class="nav-number">1.2.</span> <span class="nav-text">引入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#购买VPS"><span class="nav-number">2.</span> <span class="nav-text">购买VPS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#VPS的环境的建议以及选择"><span class="nav-number">2.1.</span> <span class="nav-text">VPS的环境的建议以及选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进入命令行"><span class="nav-number">2.2.</span> <span class="nav-text">进入命令行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我的VPS环境"><span class="nav-number">2.3.</span> <span class="nav-text">我的VPS环境</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Authentication"><span class="nav-number"></span> <span class="nav-text">Authentication:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Change-to-no-to-disable-tunnelled-clear-text-passwords"><span class="nav-number"></span> <span class="nav-text">Change to no to disable tunnelled clear text passwords</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker的"><span class="nav-number">1.</span> <span class="nav-text">Docker的</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Docker？"><span class="nav-number">1.1.</span> <span class="nav-text">什么是Docker？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么选择Docker？"><span class="nav-number">1.2.</span> <span class="nav-text">为什么选择Docker？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker的一键安装"><span class="nav-number">1.3.</span> <span class="nav-text">Docker的一键安装</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装-Docker"><span class="nav-number"></span> <span class="nav-text">安装 Docker</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后台启动"><span class="nav-number"></span> <span class="nav-text">后台启动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#开机自启动"><span class="nav-number">1.</span> <span class="nav-text">开机自启动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker的镜像选择"><span class="nav-number">1.1.</span> <span class="nav-text">Docker的镜像选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Docker-compose部署"><span class="nav-number">1.2.</span> <span class="nav-text">使用Docker-compose部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-compose-的配置"><span class="nav-number">1.3.</span> <span class="nav-text">Docker-compose 的配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问端口以及测试"><span class="nav-number">1.4.</span> <span class="nav-text">访问端口以及测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插件的启用"><span class="nav-number">1.5.</span> <span class="nav-text">插件的启用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fever"><span class="nav-number">1.5.1.</span> <span class="nav-text">fever</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全文插件"><span class="nav-number">1.5.2.</span> <span class="nav-text">全文插件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#订阅源"><span class="nav-number">1.6.</span> <span class="nav-text">订阅源</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#导入"><span class="nav-number">1.6.1.</span> <span class="nav-text">导入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#推荐"><span class="nav-number">1.6.2.</span> <span class="nav-text">推荐</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rsshub的自建"><span class="nav-number">1.6.3.</span> <span class="nav-text">rsshub的自建</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见问题"><span class="nav-number">2.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#端口无法访问"><span class="nav-number">2.1.</span> <span class="nav-text">端口无法访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用端口登陆后，提示。。。。"><span class="nav-number">2.2.</span> <span class="nav-text">用端口登陆后，提示。。。。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Safari进入订阅源设置后，不断跳出opml导入的问题"><span class="nav-number">2.3.</span> <span class="nav-text">Safari进入订阅源设置后，不断跳出opml导入的问题</span></a></li></ol></li></ol></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Li Yan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
